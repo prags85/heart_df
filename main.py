@@ -25,7 +25,7 @@ def predict_values():
 def predict_heart_disease(trestbps, oldpeak, sex, cp, fbs, restecg, exang, slope, ca, thal):
     input_data = pd.DataFrame({'trestbps': [trestbps], 'oldpeak': [oldpeak], 'sex_1': [1 if sex == 'male' else 0],
                                'cp_1': [1 if cp == 'atypical angina' else 0], 'cp_2': [1 if cp == 'typical angina' else 0],
-                               'cp_3': [1 if cp == 'non-anginal' else 0], 'fbs_1': [1 if fbs>120], 'restecg_1': [1 if restecg == 'normal' else 0],
+                               'cp_3': [1 if cp == 'non-anginal' else 0], 'fbs_1': [1 if fbs>120 else 0], 'restecg_1': [1 if restecg == 'normal' else 0],
                                'restecg_2': [1 if restecg == 'ST-T wave abnormality' else 0], 'exang_1': [1 if exang == 'yes' else 0],
                                'slope_1': [1 if slope == 'upsloping' else 0], 'ca_1': [1 if ca == 0 else 0], 'ca_2': [1 if ca == 1 else 0],
                                'ca_3': [1 if ca == 2 else 0], 'ca_4': [1 if ca == 3 else 0], 'thal_1': [1 if thal == 'error' else 0],
