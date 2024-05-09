@@ -16,7 +16,7 @@ def predict_values():
     restecg = st.selectbox('Select type of Rest ECG abnormalities:', ['normal', 'ST-T wave abnormality', 'left ventricular hypertrophy'])
     exang = st.selectbox('Is it exercise induced angina:', ['yes', 'no'])
     slope = st.selectbox('Select type of slope of ST/heart rate:', ['upsloping', 'flat', 'downsloping'])
-    ca = st.number_input('Enter number of colored cells: (0, 1, 2, 3): ')
+    ca = st.number_input('Enter number of colored cells: (0, 1, 2, 3): ', min_value=0, max_value=3, step=1)
     thal = st.selectbox('Enter Thalassemia classification:', ['error', 'fixed defect', 'normal', 'reversible defect'])
 
     return trestbps, oldpeak, sex, cp, fbs, restecg, exang, slope, ca, thal
@@ -25,7 +25,7 @@ def predict_values():
 def predict_heart_disease(trestbps, oldpeak, sex, cp, fbs, restecg, exang, slope, ca, thal):
     input_data = pd.DataFrame({'trestbps': [trestbps], 'oldpeak': [oldpeak], 'sex_1': [1 if sex == 'male' else 0],
                                'cp_1': [1 if cp == 'atypical angina' else 0], 'cp_2': [1 if cp == 'typical angina' else 0],
-                               'cp_3': [1 if cp == 'non-anginal' else 0], 'fbs_1': [1 if fbs>120 else 0], 'restecg_1': [1 if restecg == 'normal' else 0],
+                               'cp_3': [1 if cp == 'non-anginal' else 0], 'fbs_1': [1 if fbs > 120 else 0], 'restecg_1': [1 if restecg == 'normal' else 0],
                                'restecg_2': [1 if restecg == 'ST-T wave abnormality' else 0], 'exang_1': [1 if exang == 'yes' else 0],
                                'slope_1': [1 if slope == 'upsloping' else 0], 'ca_1': [1 if ca == 0 else 0], 'ca_2': [1 if ca == 1 else 0],
                                'ca_3': [1 if ca == 2 else 0], 'ca_4': [1 if ca == 3 else 0], 'thal_1': [1 if thal == 'error' else 0],
@@ -42,14 +42,16 @@ def main():
     # Get user input
     trestbps, oldpeak, sex, cp, fbs, restecg, exang, slope, ca, thal = predict_values()
 
-    # Predict heart disease
-    prediction = predict_heart_disease(trestbps, oldpeak, sex, cp, fbs, restecg, exang, slope, ca, thal)
+    # Submit button
+    if st.button('Predict'):
+        # Predict heart disease
+        prediction = predict_heart_disease(trestbps, oldpeak, sex, cp, fbs, restecg, exang, slope, ca, thal)
 
-    # Display prediction
-    if prediction[0] == 1:
-        st.write("YES, YOU HAVE HEART DISEASE")
-    else:
-        st.write("NO, YOU DONT HAVE HEART DISEASE")
+        # Display prediction
+        if prediction[0] == 1:
+            st.write("YES, YOU HAVE HEART DISEASE")
+        else:
+            st.write("NO, YOU DONT HAVE HEART DISEASE")
 
 if __name__ == "__main__":
     main()
